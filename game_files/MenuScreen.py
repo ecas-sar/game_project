@@ -87,5 +87,16 @@ class MenuScreen():
         self.screen.blit(options_text, options_text_rect)
         self.screen.blit(quit_text, quit_text_rect)
 
+    def quit_button_mechanics(self, quit_button, quit_button_rect):
+        x_mouse, y_mouse = pygame.mouse.get_pos()
+        pass
+
+    def mouse_over_button(self, button, button_rect):
+        x_mouse, y_mouse = pygame.mouse.get_pos()
+        button_mid_length = ((button.get_width())**2 + (button.get_height())**2)**(1/2)
+        mouse_distance_length_x = button_rect.left - x_mouse
+        mouse_distance_length_y = button_rect.top - y_mouse
+        mouse_distance_length = ((mouse_distance_length_x)**2 + (mouse_distance_length_y)**2)**(1/2)
+        return mouse_distance_length <= button_mid_length
 
 menu_screen = MenuScreen()
