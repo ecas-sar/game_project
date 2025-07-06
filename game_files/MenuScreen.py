@@ -1,4 +1,4 @@
-import pygame
+import pygame, sys
 
 class MenuScreen():
     def __init__(self):
@@ -17,7 +17,7 @@ class MenuScreen():
 
         # Runs game loop and quits
         self.game_loop()
-        pygame.quit()
+        self.exit_game()
 
     def game_loop(self):
         '''Runs the game loop, creating text and implementing button mechanics.
@@ -30,11 +30,13 @@ class MenuScreen():
 
             # Displays text and buttons.
             self.create_text()
-            self.create_buttons()
+            mouse_over_start, mouse_over_options, mouse_over_quit = self.create_buttons()
 
             # Refreshes page.
             pygame.display.flip()
             for event in pygame.event.get():
+                if (mouse_over_quit and event.type == pygame.MOUSEBUTTONDOWN):
+                    self.exit_game()
                 if event.type == pygame.QUIT:
                     running = False
 
@@ -86,17 +88,24 @@ class MenuScreen():
         self.screen.blit(start_text, start_text_rect)
         self.screen.blit(options_text, options_text_rect)
         self.screen.blit(quit_text, quit_text_rect)
-
-    def quit_button_mechanics(self, quit_button, quit_button_rect):
-        x_mouse, y_mouse = pygame.mouse.get_pos()
-        pass
+        return self.mouse_over_button(start_text, start_text_rect), self.mouse_over_button(options_text, options_text_rect), self.mouse_over_button(quit_text, quit_text_rect)
 
     def mouse_over_button(self, button, button_rect):
+        '''Detects whether the mouse is over any given button. Uses Pythagorean Theorem to detect if the mouse is in the button
+        Parameters: button, button_rect
+        Return: boolean'''
         x_mouse, y_mouse = pygame.mouse.get_pos()
-        button_mid_length = ((button.get_width())**2 + (button.get_height())**2)**(1/2)
+        button_mid_length = abs(((button.get_width())**2 + (button.get_height())**2)**(1/2))
         mouse_distance_length_x = button_rect.left - x_mouse
         mouse_distance_length_y = button_rect.top - y_mouse
-        mouse_distance_length = ((mouse_distance_length_x)**2 + (mouse_distance_length_y)**2)**(1/2)
+        mouse_distance_length = abs(((mouse_distance_length_x)**2 + (mouse_distance_length_y)**2)**(1/2))
         return mouse_distance_length <= button_mid_length
+    
+    def exit_game(self):
+        '''Exits game and exits system to prevent run-time errors when closing program
+        Parameters: void
+        Return: void'''
+        pygame.quit()
+        sys.exit()
 
 menu_screen = MenuScreen()
