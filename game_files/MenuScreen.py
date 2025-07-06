@@ -1,5 +1,7 @@
 import pygame, sys
 
+import GameScreen, OptionsScreen
+
 class MenuScreen():
     def __init__(self):
         '''Constructor of MenuScreen sets up the backdrop colour, screen size, caption, and runs game loop.
@@ -37,6 +39,15 @@ class MenuScreen():
             for event in pygame.event.get():
                 if (mouse_over_quit and event.type == pygame.MOUSEBUTTONDOWN):
                     self.exit_game()
+                
+                if (mouse_over_options and event.type == pygame.MOUSEBUTTONDOWN):
+                    options_screen = OptionsScreen.OptionsScreen()
+                    running = False
+
+                if (mouse_over_start and event.type == pygame.MOUSEBUTTONDOWN):
+                    game_screen = GameScreen.GameScreen()
+                    running = False
+
                 if event.type == pygame.QUIT:
                     running = False
 
@@ -91,7 +102,7 @@ class MenuScreen():
         return self.mouse_over_button(start_text, start_text_rect), self.mouse_over_button(options_text, options_text_rect), self.mouse_over_button(quit_text, quit_text_rect)
 
     def mouse_over_button(self, button, button_rect):
-        '''Detects whether the mouse is over any given button. Uses Pythagorean Theorem to detect if the mouse is in the button
+        '''Uses Pythagorean Theorem to detect if the mouse is iver the button.
         Parameters: button, button_rect
         Return: boolean'''
         x_mouse, y_mouse = pygame.mouse.get_pos()
@@ -99,6 +110,9 @@ class MenuScreen():
         mouse_distance_length_x = button_rect.left - x_mouse
         mouse_distance_length_y = button_rect.top - y_mouse
         mouse_distance_length = abs(((mouse_distance_length_x)**2 + (mouse_distance_length_y)**2)**(1/2))
+        # If the distance between the left hand and the mouse is less than or equal to the distance 
+        # between the top left and bottom right corners of the button, the mouse is over the button.
+        # A proof for this can be seen in the notes.
         return mouse_distance_length <= button_mid_length
     
     def exit_game(self):
