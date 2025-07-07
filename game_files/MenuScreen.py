@@ -79,12 +79,7 @@ class MenuScreen():
         quit_button_x = self.width - 100 - button_width/2
         button_y = self.height - 150
 
-        # Renders rectangles
-        pygame.draw.rect(self.screen, (255, 255, 255), pygame.Rect(start_button_x, button_y, button_width, button_height))
-        pygame.draw.rect(self.screen, (255, 255, 255), pygame.Rect(options_button_x, button_y, button_width, button_height))
-        pygame.draw.rect(self.screen, (255, 255, 255), pygame.Rect(quit_button_x, button_y, button_width, button_height))
-
-        # Renders text.
+        # Renders text and buttons.
         font_size = 50
         font = pygame.font.Font('freesansbold.ttf', font_size)
         start_text = font.render('Start', True, (0, 0, 0), (255, 255, 255))
