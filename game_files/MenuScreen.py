@@ -38,17 +38,14 @@ class MenuScreen():
             pygame.display.flip()
             for event in pygame.event.get():
                 if (mouse_over_quit and event.type == pygame.MOUSEBUTTONDOWN):
-                    self.exit_game()
+                    running = False
                 
                 if (mouse_over_options and event.type == pygame.MOUSEBUTTONDOWN):
-                    options_screen = OptionsScreen.OptionsScreen()
+                    OptionsScreen.OptionsScreen()
                     running = False
 
                 if (mouse_over_start and event.type == pygame.MOUSEBUTTONDOWN):
-                    game_screen = GameScreen.GameScreen()
-                    running = False
-
-                if event.type == pygame.QUIT:
+                    GameScreen.GameScreen()
                     running = False
 
     def create_text(self):
