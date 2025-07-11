@@ -13,10 +13,10 @@ class GameScreen():
         self.height = self.game_screen.get_height()
 
         # Sets initial position coordinates and velocity and creates rectangle.
-        self.initial_player_coords_x = self.width//2
-        self.initial_player_coords_y = self.height//2
+        self.player_coords_x = self.width//2
+        self.player_coords_y = self.height//2
         self.player_velocity = 10
-        self.test_character = pygame.Rect(self.initial_player_coords_x, self.initial_player_coords_y, 25, 25)
+        self.test_character = pygame.image.load('/Users/cassar.eddie.l/game_project/sprite_sheets/main_character.png').convert_alpha()
         self.game_loop()
 
     def game_loop(self):
@@ -30,18 +30,18 @@ class GameScreen():
             self.game_screen.fill((128, 0, 0))  
 
             # Draws rectangle
-            pygame.draw.rect(self.game_screen, (255, 255, 255), self.test_character)
+            self.game_screen.blit(self.test_character, (self.player_coords_x, self.player_coords_y))
 
             # Implements movement mechanics
             pressed = pygame.key.get_pressed()
             if pressed[pygame.K_LEFT]:
-                self.test_character.x -= self.player_velocity
+                self.player_coords_x -= self.player_velocity
             elif pressed[pygame.K_RIGHT]:
-                self.test_character.x += self.player_velocity
+                self.player_coords_x += self.player_velocity
             elif pressed[pygame.K_UP]:
-               self.test_character.y -= self.player_velocity
+               self.player_coords_y -= self.player_velocity
             elif pressed[pygame.K_DOWN]:
-                self.test_character.y += self.player_velocity
+                self.player_coords_y += self.player_velocity
 
             # Refreshes page
             pygame.display.flip()
