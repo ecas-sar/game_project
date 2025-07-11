@@ -36,11 +36,11 @@ class GameScreen():
             pressed = pygame.key.get_pressed()
             if pressed[pygame.K_LEFT]:
                 self.player_coords_x -= self.player_velocity
-            elif pressed[pygame.K_RIGHT]:
+            if pressed[pygame.K_RIGHT]:
                 self.player_coords_x += self.player_velocity
-            elif pressed[pygame.K_UP]:
+            if pressed[pygame.K_UP]:
                self.player_coords_y -= self.player_velocity
-            elif pressed[pygame.K_DOWN]:
+            if pressed[pygame.K_DOWN]:
                 self.player_coords_y += self.player_velocity
 
             # Refreshes page
