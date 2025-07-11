@@ -32,19 +32,20 @@ class GameScreen():
             # Draws rectangle
             pygame.draw.rect(self.game_screen, (255, 255, 255), self.test_character)
 
+            # Implements movement mechanics
+            pressed = pygame.key.get_pressed()
+            if pressed[pygame.K_LEFT]:
+                self.test_character.x -= self.player_velocity
+            elif pressed[pygame.K_RIGHT]:
+                self.test_character.x += self.player_velocity
+            elif pressed[pygame.K_UP]:
+               self.test_character.y -= self.player_velocity
+            elif pressed[pygame.K_DOWN]:
+                self.test_character.y += self.player_velocity
+
             # Refreshes page
             pygame.display.flip()
 
             for event in pygame.event.get():
-                # Implements movement mechanics
-                if event.type == pygame.KEYDOWN:
-                    if event.key == pygame.K_LEFT:
-                        self.test_character.x -= self.player_velocity
-                    elif event.key == pygame.K_RIGHT:
-                        self.test_character.x += self.player_velocity
-                    elif event.key == pygame.K_UP:
-                        self.test_character.y -= self.player_velocity
-                    elif event.key == pygame.K_DOWN:
-                        self.test_character.y += self.player_velocity
                 if event.type == pygame.QUIT:
                     running = False
