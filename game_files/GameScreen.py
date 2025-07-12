@@ -59,5 +59,16 @@ class GameScreen():
             pygame.display.flip()
 
             for event in pygame.event.get():
+                # Implements dash logic in for loop so user can't just hold D and zoom around quickly, avoiding all enemies and removing all challenge.
+                if event.type == pygame.KEYDOWN:
+                    if event.key == pygame.K_d:
+                        if current_sprite == self.char_down:
+                            self.main_character.dash_down()
+                        if current_sprite == self.char_left:
+                            self.main_character.dash_left()
+                        if current_sprite == self.char_up:
+                            self.main_character.dash_up()
+                        if current_sprite == self.char_right:
+                            self.main_character.dash_right()
                 if event.type == pygame.QUIT:
                     running = False

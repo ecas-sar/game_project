@@ -10,6 +10,7 @@ class Character():
         self.y = initial_y
         self.velocity = velocity
         self.health = 100
+        self.dash_velocity = 40
 
     def move_left(self):
         '''Moves to the left.
@@ -24,16 +25,40 @@ class Character():
         self.x += self.velocity
 
     def move_down(self):
-        '''Moves to the down.
+        '''Moves down.
         Parameters: Void
         Return: Void'''
         self.y += self.velocity
 
     def move_up(self):
-        '''Moves to the up.
+        '''Moves up.
         Parameters: Void
         Return: Void'''
         self.y -= self.velocity
+
+    def dash_left(self):
+        '''Dashes to the left.
+        Parameters: Void
+        Return: Void'''
+        self.x -= self.dash_velocity
+
+    def dash_right(self):
+        '''Dashes to the right.
+        Parameters: Void
+        Return: Void'''
+        self.x += self.dash_velocity
+    
+    def dash_down(self):
+        '''Dashes up.
+        Parameters: Void
+        Return: Void'''
+        self.y += self.dash_velocity
+    
+    def dash_up(self):
+        '''Dashes down.
+        Parameters: Void
+        Return: Void'''
+        self.y -= self.dash_velocity
 
     def load_sprites(self):
         '''Loads all the sprites and scales them properly.
