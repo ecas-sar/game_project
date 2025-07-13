@@ -9,7 +9,7 @@ class GameScreen():
         self.game_screen = pygame.display.set_mode()
         pygame.display.set_caption("Game Screen")
 
-        # Defines variables for readability
+        # Defines variables for readability.
         self.width = self.game_screen.get_width()
         self.height = self.game_screen.get_height()
 
@@ -18,10 +18,18 @@ class GameScreen():
         self.player_coords_y = self.height//2
         self.player_velocity = 5
 
+
+        self.background = pygame.image.load('/Users/cassar.eddie.l/game_project/sprite_sheets/background.png')
+        self.background_big = pygame.transform.scale(self.background, (self.width, self.height))
+        self.background_rect = self.background_big.get_rect()
+
+        # Creating the main character.
         self.main_character = Character.Character(self.player_coords_x, self.player_coords_y, self.player_velocity)
 
+        # Putting sprites in variabled to be used later.
         self.char_idle, self.char_right, self.char_left, self.char_down, self.char_up = self.main_character.load_sprites()
         
+        # Runs game loop.
         self.game_loop()
 
     def game_loop(self):
@@ -51,6 +59,10 @@ class GameScreen():
             if pressed[pygame.K_DOWN]:
                 self.main_character.move_down()
                 current_sprite = self.char_down
+
+
+            # Loads background image
+            self.game_screen.blit(self.background_big, self.background_rect)
 
             # Loads character image
             self.game_screen.blit(current_sprite, (self.main_character.x, self.main_character.y))
