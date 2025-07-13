@@ -55,6 +55,9 @@ class GameScreen():
             # Loads character image
             self.game_screen.blit(current_sprite, (self.main_character.x, self.main_character.y))
 
+            # Display health of character
+            self.display_char_health()
+
             # Refreshes page
             pygame.display.flip()
 
@@ -72,3 +75,19 @@ class GameScreen():
                             self.main_character.dash_right()
                 if event.type == pygame.QUIT:
                     running = False
+
+    def display_char_health(self):
+        '''Displays character's health at the top right corner of the screen.
+        Parameters: Void
+        Return: Void'''
+
+        # Naming variables for code readability.
+        health_x = 140
+        health_y = 50
+        font_size = 50
+        font = pygame.font.Font('freesansbold.ttf', font_size)
+        health_text = font.render('Health: ' + str(self.main_character.health), True, (0, 0, 0), (255, 255, 255))
+        health_text_rect = health_text.get_rect()
+        health_text_rect.center = (health_x, health_y)
+        self.game_screen.blit(health_text, health_text_rect)
+        pass
