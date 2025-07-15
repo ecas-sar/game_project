@@ -1,5 +1,7 @@
+import random
 import pygame
 import Character
+import Enemy
 
 class GameScreen():
     def __init__(self):
@@ -25,6 +27,8 @@ class GameScreen():
 
         # Creating the main character.
         self.main_character = Character.Character(self.player_coords_x, self.player_coords_y, self.player_velocity)
+
+        self.enemy = Enemy.Enemy(self.width, self.height)
 
         # Putting sprites in variabled to be used later.
         self.char_idle, self.char_right, self.char_left, self.char_down, self.char_up = self.main_character.load_sprites()
@@ -67,6 +71,9 @@ class GameScreen():
             # Loads character image
             self.game_screen.blit(current_sprite, (self.main_character.x, self.main_character.y))
 
+            # Load enemy image
+            self.display_enemy()
+
             # Display health of character
             self.display_char_health()
 
@@ -102,4 +109,6 @@ class GameScreen():
         health_text_rect = health_text.get_rect()
         health_text_rect.center = (health_x, health_y)
         self.game_screen.blit(health_text, health_text_rect)
-        pass
+
+    def display_enemy(self):
+        self.game_screen.blit(self.enemy.load_sprites(), (self.enemy.initial_x, self.enemy.inital_y))
