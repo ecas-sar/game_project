@@ -28,7 +28,11 @@ class GameScreen():
         # Creating the main character.
         self.main_character = Character.Character(self.player_coords_x, self.player_coords_y, self.player_velocity)
 
+        # Creating enemy.
         self.enemy = Enemy.Enemy(self.width, self.height)
+        self.last_switch_time = pygame.time.get_ticks()
+        self.sprite_index = 0
+        self.sprites = self.enemy.load_sprites()
 
         # Putting sprites in variabled to be used later.
         self.char_idle, self.char_right, self.char_left, self.char_down, self.char_up = self.main_character.load_sprites()
@@ -111,4 +115,10 @@ class GameScreen():
         self.game_screen.blit(health_text, health_text_rect)
 
     def display_enemy(self):
-        self.game_screen.blit(self.enemy.load_sprites(), (self.enemy.initial_x, self.enemy.inital_y))
+        current_time = pygame.time.get_ticks()
+        rate_of_switching = 125
+        if current_time - self.last_switch_time >= rate_of_switching:
+            self.last_switch_time = current_time
+            self.sprite_index = (self.sprite_index + 1) % len(self.sprites)
+        current_sprite = self.sprites[self.sprite_index]
+        self.game_screen.blit(current_sprite, (self.enemy.initial_x, self.enemy.inital_y))

@@ -8,5 +8,6 @@ class Enemy():
         self.inital_y = random.uniform(0, screen_height)
 
     def load_sprites(self):
-        sprites = pygame.transform.scale(pygame.image.load('/Users/cassar.eddie.l/game_project/sprite_sheets/bat_sprites.png').convert_alpha(), (50, 50))
-        return sprites
+        sprite_one = pygame.transform.scale(pygame.image.load('/Users/cassar.eddie.l/game_project/sprite_sheets/bat_one.png').convert_alpha(), (50, 50))
+        sprite_two = pygame.transform.scale(pygame.image.load('/Users/cassar.eddie.l/game_project/sprite_sheets/bat_two.png').convert_alpha(), (50, 50))
+        return sprite_one, sprite_two
