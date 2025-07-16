@@ -11,3 +11,5 @@ Now, instead of the square, there is a sprite made using piskel, and there are d
 The health bar is displayed in the top left and the background is now an image made using piskel rather than just a black backround. 
 
 The bat is displayed with the x and y coordinates probability being uniformly distributed (i.e. the bat is equally likely to spawn anywhere on the screen), and the flap animation works correctly.
+
+The character cannot exit the boundaries, and the bat will chase the character around the map.

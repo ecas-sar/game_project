@@ -58,6 +58,7 @@ class GameScreen():
             if pressed[pygame.K_LEFT]: 
                 self.main_character.move_left()
                 current_sprite = self.char_left
+                # This if statement (and others similar below it) make sure the character can't exit boundaries.
                 if self.main_character.x < 0:
                     self.main_character.x = 0
             if pressed[pygame.K_RIGHT]:
@@ -85,6 +86,10 @@ class GameScreen():
 
             # Load enemy image
             self.display_enemy()
+
+            # Creates a player rectangle so that the bat chases that rectangle, hence the player, all the time.
+            main_character_rect = pygame.Rect(self.main_character.x, self.main_character.y, current_sprite.get_width(), current_sprite.get_height())
+            self.enemy.chase_player(main_character_rect)
 
             # Display health of character
             self.display_char_health()
@@ -129,4 +134,4 @@ class GameScreen():
             self.last_switch_time = current_time
             self.sprite_index = (self.sprite_index + 1) % len(self.sprites)
         current_sprite = self.sprites[self.sprite_index]
-        self.game_screen.blit(current_sprite, (self.enemy.initial_x, self.enemy.inital_y))
+        self.game_screen.blit(current_sprite, (self.enemy.x, self.enemy.y))
