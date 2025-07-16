@@ -28,14 +28,21 @@ class GameScreen():
         # Creating the main character.
         self.main_character = Character.Character(self.player_coords_x, self.player_coords_y, self.player_velocity)
 
+        # To help with attack mechanics and animation.
+        self.attacking = False
+        self.attack_start_time = 0
+        self.attack_end_time = 300 
+
         # Creating enemy.
         self.enemy = Enemy.Enemy(self.width, self.height)
         self.last_switch_time = pygame.time.get_ticks()
         self.sprite_index = 0
         self.sprites = self.enemy.load_sprites()
 
-        # Putting sprites in variabled to be used later.
-        self.char_idle, self.char_right, self.char_left, self.char_down, self.char_up = self.main_character.load_sprites()
+        # Putting sprites in variables to be used later.
+        self.char_idle, self.char_right, self.char_left, self.char_down, self.char_up, self.up_attack, self.down_attack, self.left_attack, self.right_attack = self.main_character.load_sprites()
+
+        self.last_direction = self.char_idle
         
         # Runs game loop.
         self.game_loop()
@@ -53,31 +60,48 @@ class GameScreen():
             # Sets initial sprite to idle as the player is not moving at the start.
             current_sprite = self.char_idle 
 
-            # Implements movement mechanics
-            pressed = pygame.key.get_pressed()
-            if pressed[pygame.K_LEFT]: 
-                self.main_character.move_left()
-                current_sprite = self.char_left
-                # This if statement (and others similar below it) make sure the character can't exit boundaries.
-                if self.main_character.x < 0:
-                    self.main_character.x = 0
-            if pressed[pygame.K_RIGHT]:
-                self.main_character.move_right()
-                current_sprite = self.char_right
-                if self.main_character.x > self.width - 64:
-                    self.main_character.x = self.width - 64
-            if pressed[pygame.K_UP]:
-               self.main_character.move_up()
-               current_sprite = self.char_up
-               if self.main_character.y < 0:
-                   self.main_character.y = 0
-            if pressed[pygame.K_DOWN]:
-                self.main_character.move_down()
-                current_sprite = self.char_down
-                if self.main_character.y > self.height - 110:
-                   self.main_character.y = self.height - 110
-
-
+            # Implements attacking mechanics, makes sure player can't attack when already attacking.
+            if self.attacking:
+                current_time = pygame.time.get_ticks()
+                if current_time - self.attack_start_time <= self.attack_end_time:
+                    if self.last_direction == self.char_down:
+                        current_sprite = self.down_attack
+                    if self.last_direction == self.char_left:
+                        current_sprite = self.left_attack
+                    if self.last_direction == self.char_up:
+                        current_sprite = self.up_attack
+                    if self.last_direction == self.char_right:
+                        current_sprite = self.right_attack
+                else:
+                    self.attacking = False
+            else:
+                # Implements movement mechanics
+                pressed = pygame.key.get_pressed()
+                if pressed[pygame.K_LEFT]: 
+                    self.main_character.move_left()
+                    current_sprite = self.char_left
+                    self.last_direction = self.char_left
+                    # This if statement (and others similar below it) make sure the character can't exit boundaries.
+                    if self.main_character.x < 0:
+                        self.main_character.x = 0
+                if pressed[pygame.K_RIGHT]:
+                    self.main_character.move_right()
+                    current_sprite = self.char_right
+                    self.last_direction = self.char_right
+                    if self.main_character.x > self.width - 64:
+                        self.main_character.x = self.width - 64
+                if pressed[pygame.K_UP]:
+                    self.main_character.move_up()
+                    current_sprite = self.char_up
+                    self.last_direction = self.char_up
+                if self.main_character.y < 0:
+                    self.main_character.y = 0
+                if pressed[pygame.K_DOWN]:
+                    self.main_character.move_down()
+                    current_sprite = self.char_down
+                    self.last_direction = self.char_down
+                    if self.main_character.y > self.height - 110:
+                        self.main_character_y = self.height - 110      
             # Loads background image
             self.game_screen.blit(self.background_big, self.background_rect)
 
@@ -109,6 +133,10 @@ class GameScreen():
                             self.main_character.dash_up()
                         if current_sprite == self.char_right:
                             self.main_character.dash_right()
+                    # Implements attack logic in for loop for the same reasoning as dash.
+                    if event.key == pygame.K_a:
+                        self.attacking = True
+                        self.attack_start_time = pygame.time.get_ticks()
                 if event.type == pygame.QUIT:
                     running = False
 

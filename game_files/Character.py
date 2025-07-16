@@ -65,10 +65,14 @@ class Character():
         Parameters: Void
         Return: Void
         '''
-        # Uses the pngs of sprites I created using Piskel.
+        # Loads the pngs of sprites that were created using Piskel and scales them to 64x64.
         char_idle = pygame.transform.scale(pygame.image.load('/Users/cassar.eddie.l/game_project/sprite_sheets/main_character_idle.png').convert_alpha(), (64, 64))
         char_right = pygame.transform.scale(pygame.image.load('/Users/cassar.eddie.l/game_project/sprite_sheets/main_character_right.png').convert_alpha(), (64, 64))
         char_left = pygame.transform.scale(pygame.image.load('/Users/cassar.eddie.l/game_project/sprite_sheets/main_character_left.png').convert_alpha(), (64, 64))
         char_down = pygame.transform.scale(pygame.image.load('/Users/cassar.eddie.l/game_project/sprite_sheets/main_character_down.png').convert_alpha(), (64, 64))
         char_up = pygame.transform.scale(pygame.image.load('/Users/cassar.eddie.l/game_project/sprite_sheets/main_character_up.png').convert_alpha(), (64, 64))
-        return char_idle, char_right, char_left, char_down, char_up
+        up_attack = pygame.transform.scale(pygame.image.load('/Users/cassar.eddie.l/game_project/sprite_sheets/up_attack.png').convert_alpha(), (64, 64))
+        down_attack = pygame.transform.scale(pygame.image.load('/Users/cassar.eddie.l/game_project/sprite_sheets/down_attack.png').convert_alpha(), (64, 64))
+        left_attack = pygame.transform.scale(pygame.image.load('/Users/cassar.eddie.l/game_project/sprite_sheets/left_attack.png').convert_alpha(), (64, 64))
+        right_attack = pygame.transform.scale(pygame.image.load('/Users/cassar.eddie.l/game_project/sprite_sheets/right_attack.png').convert_alpha(), (64, 64))
+        return char_idle, char_right, char_left, char_down, char_up, up_attack, down_attack, left_attack, right_attack
