@@ -55,18 +55,26 @@ class GameScreen():
 
             # Implements movement mechanics
             pressed = pygame.key.get_pressed()
-            if pressed[pygame.K_LEFT]:
+            if pressed[pygame.K_LEFT]: 
                 self.main_character.move_left()
                 current_sprite = self.char_left
+                if self.main_character.x < 0:
+                    self.main_character.x = 0
             if pressed[pygame.K_RIGHT]:
                 self.main_character.move_right()
                 current_sprite = self.char_right
+                if self.main_character.x > self.width - 64:
+                    self.main_character.x = self.width - 64
             if pressed[pygame.K_UP]:
                self.main_character.move_up()
                current_sprite = self.char_up
+               if self.main_character.y < 0:
+                   self.main_character.y = 0
             if pressed[pygame.K_DOWN]:
                 self.main_character.move_down()
                 current_sprite = self.char_down
+                if self.main_character.y > self.height - 110:
+                   self.main_character.y = self.height - 110
 
 
             # Loads background image
