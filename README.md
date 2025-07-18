@@ -14,4 +14,4 @@ The bat is displayed with the x and y coordinates probability being uniformly di
 
 The character cannot exit the boundaries, and the bat will chase the character around the map. The player can now attack, with the sprite changing for an attack in each direction.
 
-The buttons work with correct logic now, the collision detection, health, and death mechanics all work, and the losing screen has been made and the text and buttons all work properly.
+The buttons work with correct logic now, the collision detection, health, and death mechanics all work, and the losing screen has been made and the text and buttons all work properly. Also, it is possible to attack the bat, and the player doesn't lose hp if they attack the bat.

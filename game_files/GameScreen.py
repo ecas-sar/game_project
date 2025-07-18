@@ -116,11 +116,13 @@ class GameScreen():
             main_character_rect = pygame.Rect(self.main_character.x, self.main_character.y, current_sprite.get_width(), current_sprite.get_height())
             self.enemy.chase_player(main_character_rect)
 
-            # If the enemy touches the player, the game will close.
+            # If the enemy touches the player, the characters health will be decreased by 5.
             if (self.enemy.touching_other(main_character_rect)):
-                self.main_character.health -= 100
+                if (not self.attacking):
+                    self.main_character.health -= 5
                 self.enemy.decide_initial_coords(self.width, self.height)
             
+            # If the character's health goes to 0 or less, the game will close and the losing screen will open.
             if self.main_character.health <= 0:
                 Losing.Losing()
                 running = False
