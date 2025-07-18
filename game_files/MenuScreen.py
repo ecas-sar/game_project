@@ -98,14 +98,9 @@ class MenuScreen():
         Parameters: button, button_rect
         Return: boolean'''
         x_mouse, y_mouse = pygame.mouse.get_pos()
-        button_mid_length = abs(((button.get_width())**2 + (button.get_height())**2)**(1/2))
-        mouse_distance_length_x = button_rect.left - x_mouse
-        mouse_distance_length_y = button_rect.top - y_mouse
-        mouse_distance_length = abs(((mouse_distance_length_x)**2 + (mouse_distance_length_y)**2)**(1/2))
-        ''' If the distance between the left hand and the mouse is less than or equal to the distance 
-         between the top left and bottom right corners of the button, the mouse is over the button.
-         A proof for this can be seen in the notes. '''
-        return mouse_distance_length <= button_mid_length
+        ''' If the x coordinate of the mouse is between the left and right edges of the button and if the y is between
+         the top and bittom, the mouse is over the button.'''
+        return (int(button_rect.left) <= x_mouse <= int(button_rect.right)) and (int(button_rect.top) <= y_mouse <= int(button_rect.bottom))
     
     def exit_game(self):
         '''Exits game and exits system to prevent run-time errors when closing program
