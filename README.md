@@ -13,3 +13,5 @@ The health bar is displayed in the top left and the background is now an image m
 The bat is displayed with the x and y coordinates probability being uniformly distributed (i.e. the bat is equally likely to spawn anywhere on the screen), and the flap animation works correctly.
 
 The character cannot exit the boundaries, and the bat will chase the character around the map. The player can now attack, with the sprite changing for an attack in each direction.
+
+The buttons work with correct logic now, the collision detection, health, and death mechanics all work, and the losing screen has been made and the text and buttons all work properly.

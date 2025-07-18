@@ -118,7 +118,7 @@ class GameScreen():
 
             # If the enemy touches the player, the game will close.
             if (self.enemy.touching_other(main_character_rect)):
-                self.main_character.health -= 5
+                self.main_character.health -= 100
                 self.enemy.decide_initial_coords(self.width, self.height)
             
             if self.main_character.health <= 0:

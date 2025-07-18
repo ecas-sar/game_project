@@ -105,7 +105,7 @@ class MenuScreen():
         button_top = int(button_rect.top)
         button_bottom = int(button_rect.bottom)
         ''' If the x coordinate of the mouse is between the left and right edges of the button and if the y is between
-         the top and bittom, the mouse is over the button.'''
+         the top and bottom, the mouse is over the button.'''
         return (button_left <= x_mouse <= button_right) and (button_top <= y_mouse <= button_bottom)
     
     def exit_game(self):
