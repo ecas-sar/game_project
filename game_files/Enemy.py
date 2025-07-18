@@ -35,3 +35,15 @@ class Enemy():
             self.y -= self.velocity
         elif self.y < player_rect.y:
             self.y += self.velocity
+
+    def touching_other(self, other_rect):
+        '''Detects if the bat is touching something else.
+        Parameters: Pygame.rect
+        Return: Boolean'''
+        
+        other_left = int(other_rect.left)
+        other_right = int(other_rect.right)
+        other_top = int(other_rect.top)
+        other_bottom = int(other_rect.bottom)
+
+        return (other_left <= self.x <= other_right) and (other_top <= self.y <= other_bottom)

@@ -115,6 +115,10 @@ class GameScreen():
             main_character_rect = pygame.Rect(self.main_character.x, self.main_character.y, current_sprite.get_width(), current_sprite.get_height())
             self.enemy.chase_player(main_character_rect)
 
+            # If the enemy touches the player, the game will close.
+            if (self.enemy.touching_other(main_character_rect)):
+                running = False
+
             # Display health of character
             self.display_char_health()
 

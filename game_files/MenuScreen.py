@@ -91,16 +91,22 @@ class MenuScreen():
         self.screen.blit(start_text, start_text_rect)
         self.screen.blit(options_text, options_text_rect)
         self.screen.blit(quit_text, quit_text_rect)
-        return self.mouse_over_button(start_text, start_text_rect), self.mouse_over_button(options_text, options_text_rect), self.mouse_over_button(quit_text, quit_text_rect)
+        return self.mouse_over_button(start_text_rect), self.mouse_over_button(options_text_rect), self.mouse_over_button(quit_text_rect)
 
-    def mouse_over_button(self, button, button_rect):
+    def mouse_over_button(self, button_rect):
         '''Uses Pythagorean Theorem to detect if the mouse is over the button.
         Parameters: button, button_rect
         Return: boolean'''
+
+        # Names variables for code readability.
         x_mouse, y_mouse = pygame.mouse.get_pos()
+        button_left = int(button_rect.left)
+        button_right = int(button_rect.right)
+        button_top = int(button_rect.top)
+        button_bottom = int(button_rect.bottom)
         ''' If the x coordinate of the mouse is between the left and right edges of the button and if the y is between
          the top and bittom, the mouse is over the button.'''
-        return (int(button_rect.left) <= x_mouse <= int(button_rect.right)) and (int(button_rect.top) <= y_mouse <= int(button_rect.bottom))
+        return (button_left <= x_mouse <= button_right) and (button_top <= y_mouse <= button_bottom)
     
     def exit_game(self):
         '''Exits game and exits system to prevent run-time errors when closing program
