@@ -23,8 +23,8 @@ class MenuScreen():
 
     def game_loop(self):
         '''Runs the game loop, creating text and implementing button mechanics.
-        Parameters: void
-        Returns: void'''
+        Parameters: Void
+        Returns: Void'''
         running = True
         while running:
             # Sets backround to black in order to avoid bugs.

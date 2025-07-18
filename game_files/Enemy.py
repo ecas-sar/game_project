@@ -7,9 +7,16 @@ class Enemy():
         Parameters: Int, Int
         Return: Void'''
         self.alive = False
+        self.x, self.y = self.decide_initial_coords(screen_width, screen_height)
+        self.width = 0
+        self.height = 0 # Both of these to be overriden in load_sprites.
+        self.velocity = 4
+
+    def decide_initial_coords(self, screen_width, screen_height):
         self.x = random.uniform(0, screen_width)
         self.y = random.uniform(0, screen_height)
-        self.velocity = 4
+        return self.x, self.y
+
 
     def load_sprites(self):
         '''Loads sprites so that GameScreen can make the bat switch between them to give the illusion of flapping wings.
@@ -17,6 +24,9 @@ class Enemy():
         Return: Tuple'''
         sprite_one = pygame.transform.scale(pygame.image.load('/Users/cassar.eddie.l/game_project/sprite_sheets/bat_one.png').convert_alpha(), (50, 50))
         sprite_two = pygame.transform.scale(pygame.image.load('/Users/cassar.eddie.l/game_project/sprite_sheets/bat_two.png').convert_alpha(), (50, 50))
+
+        self.width = sprite_one.get_width()
+        self.height = sprite_one.get_height()
         return sprite_one, sprite_two
     
     def chase_player(self, player_rect):
@@ -40,10 +50,8 @@ class Enemy():
         '''Detects if the bat is touching something else.
         Parameters: Pygame.rect
         Return: Boolean'''
-        
-        other_left = int(other_rect.left)
-        other_right = int(other_rect.right)
-        other_top = int(other_rect.top)
-        other_bottom = int(other_rect.bottom)
 
-        return (other_left <= self.x <= other_right) and (other_top <= self.y <= other_bottom)
+        # Create the bat's own rect
+        bat_rect = pygame.Rect(self.x, self.y, self.width, self.height)
+
+        return bat_rect.colliderect(other_rect)
