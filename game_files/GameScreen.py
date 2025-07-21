@@ -40,6 +40,9 @@ class GameScreen():
         self.sprite_index = 0
         self.sprites = self.enemy.load_sprites()
 
+        # Creates score.
+        self.score = 0
+
         # Putting sprites in variables to be used later.
         self.char_idle, self.char_right, self.char_left, self.char_down, self.char_up, self.up_attack, self.down_attack, self.left_attack, self.right_attack = self.main_character.load_sprites()
 
@@ -120,6 +123,8 @@ class GameScreen():
             if (self.enemy.touching_other(main_character_rect)):
                 if (not self.attacking):
                     self.main_character.health -= 5
+                else: 
+                    self.score += 1
                 self.enemy.decide_initial_coords(self.width, self.height)
             
             # If the character's health goes to 0 or less, the game will close and the losing screen will open.
@@ -129,6 +134,9 @@ class GameScreen():
 
             # Display health of character
             self.display_char_health()
+
+            # Displays current score
+            self.display_score()
 
             # Refreshes page
             pygame.display.flip()
@@ -153,7 +161,7 @@ class GameScreen():
                     running = False
 
     def display_char_health(self):
-        '''Displays character's health at the top right corner of the screen.
+        '''Displays character's health at the top left corner of the screen.
         Parameters: Void
         Return: Void'''
 
@@ -166,6 +174,21 @@ class GameScreen():
         health_text_rect = health_text.get_rect()
         health_text_rect.center = (health_x, health_y)
         self.game_screen.blit(health_text, health_text_rect)
+
+    def display_score(self):
+        '''Displays score at the top corner of the screen.
+        Parameters: Void
+        Return: Void'''
+
+        # Naming variables for code readability.
+        score_x = self.width - 140
+        score_y = 50
+        font_size = 50
+        font = pygame.font.Font('freesansbold.ttf', font_size)
+        score_text = font.render('Score: ' + str(self.score), True, (0, 0, 0), (255, 255, 255))
+        score_text_rect = score_text.get_rect()
+        score_text_rect.center = (score_x, score_y)
+        self.game_screen.blit(score_text, score_text_rect)
 
     def display_enemy(self):
         current_time = pygame.time.get_ticks()
