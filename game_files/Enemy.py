@@ -36,7 +36,7 @@ class Enemy():
         if player_rect is None:
             return
         
-        # Movement logic.
+        # Movement logic. Two if statements to enable diagonal chasing.
         if self.x < player_rect.x:
             self.x += self.velocity
         elif self.x > player_rect.x:

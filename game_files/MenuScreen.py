@@ -32,16 +32,12 @@ class MenuScreen():
 
             # Displays text and buttons.
             self.create_text()
-            mouse_over_start, mouse_over_options, mouse_over_quit = self.create_buttons()
+            mouse_over_start, mouse_over_quit = self.create_buttons()
 
             # Refreshes page.
             pygame.display.flip()
             for event in pygame.event.get():
                 if (mouse_over_quit and event.type == pygame.MOUSEBUTTONDOWN):
-                    running = False
-                
-                if (mouse_over_options and event.type == pygame.MOUSEBUTTONDOWN):
-                    OptionsScreen.OptionsScreen()
                     running = False
 
                 if (mouse_over_start and event.type == pygame.MOUSEBUTTONDOWN):
@@ -72,7 +68,6 @@ class MenuScreen():
         button_width = 100
         button_height = 50
         start_button_x = 100 - button_width // 2
-        options_button_x = self.width // 2 - button_width // 2
         quit_button_x = self.width - 100 - button_width/2
         button_y = self.height - 150
 
@@ -80,22 +75,18 @@ class MenuScreen():
         font_size = 50
         font = pygame.font.Font('freesansbold.ttf', font_size)
         start_text = font.render('Start', True, (0, 0, 0), (255, 255, 255))
-        options_text = font.render('Options', True, (0, 0, 0), (255, 255, 255))
         quit_text = font.render('Quit', True, (0, 0, 0), (255, 255, 255))
         start_text_rect = start_text.get_rect()
-        options_text_rect = options_text.get_rect()
         quit_text_rect = quit_text.get_rect()
         start_text_rect.center = (start_button_x + button_width // 2, button_y + button_height // 2)
-        options_text_rect.center = (options_button_x + button_width // 2, button_y + button_height // 2)
-        quit_text_rect.center = (quit_button_x + button_width // 2, button_y+ button_height // 2)
+        quit_text_rect.center = (quit_button_x + button_width // 2, button_y + button_height // 2)
         self.screen.blit(start_text, start_text_rect)
-        self.screen.blit(options_text, options_text_rect)
         self.screen.blit(quit_text, quit_text_rect)
-        return self.mouse_over_button(start_text_rect), self.mouse_over_button(options_text_rect), self.mouse_over_button(quit_text_rect)
+        return self.mouse_over_button(start_text_rect), self.mouse_over_button(quit_text_rect)
 
     def mouse_over_button(self, button_rect):
-        '''Uses Pythagorean Theorem to detect if the mouse is over the button.
-        Parameters: button, button_rect
+        '''Detects if mouse is over the button.
+        Parameters: button_rect
         Return: boolean'''
 
         # Names variables for code readability.

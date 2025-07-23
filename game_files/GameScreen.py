@@ -3,6 +3,7 @@ import pygame
 import Character
 import Enemy
 import Losing
+import Winning
 
 class GameScreen():
     def __init__(self):
@@ -132,6 +133,10 @@ class GameScreen():
                 Losing.Losing()
                 running = False
 
+            if self.score >= 10:
+                Winning.Winning()
+                running = False
+
             # Display health of character
             self.display_char_health()
 
@@ -191,6 +196,11 @@ class GameScreen():
         self.game_screen.blit(score_text, score_text_rect)
 
     def display_enemy(self):
+        '''Displays the enemy and animates the flapping.
+        Parameters: Void
+        Return: Void'''
+
+
         current_time = pygame.time.get_ticks()
         rate_of_switching = 125
         if current_time - self.last_switch_time >= rate_of_switching:
