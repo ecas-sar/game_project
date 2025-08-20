@@ -33,6 +33,7 @@ class MenuScreen():
             # Displays text and buttons.
             self.create_text()
             mouse_over_start, mouse_over_quit = self.create_buttons()
+            self.create_instructions_text()
 
             # Refreshes page.
             pygame.display.flip()
@@ -83,6 +84,15 @@ class MenuScreen():
         self.screen.blit(start_text, start_text_rect)
         self.screen.blit(quit_text, quit_text_rect)
         return self.mouse_over_button(start_text_rect), self.mouse_over_button(quit_text_rect)
+
+    def create_instructions_text(self):
+        font_size = 15
+        font = pygame.font.Font('freesansbold.ttf', font_size)
+        text = 'Controls: Move - Arrow Keys, Attack - A, Dash - D. Kill the bat 10 times before it kills you to win.'
+        instr_text = font.render(text, True, (0, 0, 0), (255, 255, 255))
+        instr_text_rect = instr_text.get_rect()
+        instr_text_rect = (self.width // 2, self.height // 2)
+        self.screen.blit(instr_text, instr_text_rect)
 
     def mouse_over_button(self, button_rect):
         '''Detects if mouse is over the button.

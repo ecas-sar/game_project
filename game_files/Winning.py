@@ -3,7 +3,7 @@ import GameScreen
 
 class Winning():
     def __init__(self):
-        '''Creates losing screen.
+        '''Creates winning screen.
         Parameters: Void
         Return: Void'''
 

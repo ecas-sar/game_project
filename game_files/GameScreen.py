@@ -1,4 +1,3 @@
-import random
 import pygame
 import Character
 import Enemy
@@ -58,8 +57,6 @@ class GameScreen():
         Return: Void'''
         running = True
         while running:
-
-            # Dark red background
             self.game_screen.fill((0, 0, 0)) 
 
             # Sets initial sprite to idle as the player is not moving at the start.
@@ -133,6 +130,8 @@ class GameScreen():
                 Losing.Losing()
                 running = False
 
+
+            # If the character gets a score of ten, the game closes and the winning screen will open.
             if self.score >= 10:
                 Winning.Winning()
                 running = False
