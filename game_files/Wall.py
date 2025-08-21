@@ -1,8 +1,14 @@
 import pygame
 
 class Wall:
-    def __init__(self, initial_x, initial_y, screen):
-        self.x = initial_x
-        self.y = initial_y
-        self.colour = (0, 0, 0)
-        pygame.draw.rect(screen, self.colour, pygame.Rect(self.x, self.y, 30, 30))
+    def __init__(self, screen_width, screen_height):
+        self.x, self.y = self.decide_initial_coords(screen_width, screen_height)
+
+    def load_sprites(self):
+        wall_sprite = pygame.transform.scale(pygame.image.load('/Users/cassar.eddie.l/game_project/sprite_sheets/wall.png').convert_alpha(), (50, 50))
+        return wall_sprite
+
+    def decide_initial_coords(self, screen_width, screen_height):
+        self.x = random.uniform(0, screen_width)
+        self.y = random.uniform(0, screen_height)
+        return self.x, self.y

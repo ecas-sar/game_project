@@ -46,6 +46,9 @@ class GameScreen():
         # Putting sprites in variables to be used later.
         self.char_idle, self.char_right, self.char_left, self.char_down, self.char_up, self.up_attack, self.down_attack, self.left_attack, self.right_attack = self.main_character.load_sprites()
 
+        # Creates sound effects.
+        self.dying_sfx = pygame.mixer.Sound("/Users/cassar.eddie.l/game_project/sound_effects/bruh.mp3")
+
         self.last_direction = self.char_idle
         
         # Runs game loop.
@@ -127,6 +130,7 @@ class GameScreen():
             
             # If the character's health goes to 0 or less, the game will close and the losing screen will open.
             if self.main_character.health <= 0:
+                pygame.mixer.Sound.play(self.dying_sfx)
                 Losing.Losing()
                 running = False
 
