@@ -47,6 +47,9 @@ class GameScreen():
         self.char_idle, self.char_right, self.char_left, self.char_down, self.char_up, self.up_attack, self.down_attack, self.left_attack, self.right_attack = self.main_character.load_sprites()
 
         # Creates sound effects.
+        self.bat_hit_char = pygame.mixer.Sound("/Users/cassar.eddie.l/game_project/sound_effects/bat_hit.mp3")
+        self.char_hit_bat = pygame.mixer.Sound("/Users/cassar.eddie.l/game_project/sound_effects/char_hit.mp3")
+        self.winning_sfx = pygame.mixer.Sound("/Users/cassar.eddie.l/game_project/sound_effects/win.mp3")
         self.dying_sfx = pygame.mixer.Sound("/Users/cassar.eddie.l/game_project/sound_effects/bruh.mp3")
 
         self.last_direction = self.char_idle
@@ -123,8 +126,10 @@ class GameScreen():
             # If the enemy touches the player, the characters health will be decreased by 5.
             if (self.enemy.touching_other(main_character_rect)):
                 if (not self.attacking):
+                    pygame.mixer.Sound.play(self.bat_hit_char)
                     self.main_character.health -= 5
                 else: 
+                    pygame.mixer.Sound.play(self.char_hit_bat)
                     self.score += 1
                 self.enemy.decide_initial_coords(self.width, self.height)
             
@@ -137,6 +142,7 @@ class GameScreen():
 
             # If the character gets a score of ten, the game closes and the winning screen will open.
             if self.score >= 10:
+                pygame.mixer.Sound.play(self.winning_sfx)
                 Winning.Winning()
                 running = False
 
