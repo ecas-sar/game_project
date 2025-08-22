@@ -3,6 +3,7 @@ import Character
 import Enemy
 import Losing
 import Winning
+import Wall
 
 class GameScreen():
     def __init__(self):
@@ -39,6 +40,10 @@ class GameScreen():
         self.last_switch_time = pygame.time.get_ticks()
         self.sprite_index = 0
         self.sprites = self.enemy.load_sprites()
+
+        # Creating walls
+        self.wall = self.make_wall()
+        self.wall_sprite = self.wall.load_sprites()
 
         # Creates score.
         self.score = 0
@@ -119,6 +124,9 @@ class GameScreen():
             # Load enemy image
             self.display_enemy()
 
+            # Load wall image
+            self.game_screen.blit(self.wall_sprite, (self.wall.x, self.wall.y))
+
             # Creates a player rectangle so that the bat chases that rectangle, hence the player, all the time.
             main_character_rect = pygame.Rect(self.main_character.x, self.main_character.y, current_sprite.get_width(), current_sprite.get_height())
             self.enemy.chase_player(main_character_rect)
@@ -148,7 +156,7 @@ class GameScreen():
 
             # Display health of character
             self.display_char_health()
-
+ 
             # Displays current score
             self.display_score()
 
@@ -209,7 +217,6 @@ class GameScreen():
         Parameters: Void
         Return: Void'''
 
-
         current_time = pygame.time.get_ticks()
         rate_of_switching = 125
         if current_time - self.last_switch_time >= rate_of_switching:
@@ -217,3 +224,7 @@ class GameScreen():
             self.sprite_index = (self.sprite_index + 1) % len(self.sprites)
         current_sprite = self.sprites[self.sprite_index]
         self.game_screen.blit(current_sprite, (self.enemy.x, self.enemy.y))
+
+    def make_wall(self):
+        wall = Wall.Wall(self.width, self.height)
+        return wall

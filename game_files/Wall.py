@@ -1,4 +1,5 @@
 import pygame
+import random
 
 class Wall:
     def __init__(self, screen_width, screen_height):
