@@ -11,6 +11,8 @@ class Character():
         self.velocity = velocity
         self.health = 100
         self.dash_velocity = 40
+        self.width = 0
+        self.height = 0 # Both of these to be overriden in load_sprites.
 
     def move_left(self):
         '''Moves to the left.
@@ -75,4 +77,17 @@ class Character():
         down_attack = pygame.transform.scale(pygame.image.load('/Users/cassar.eddie.l/game_project/sprite_sheets/down_attack.png').convert_alpha(), (64, 64))
         left_attack = pygame.transform.scale(pygame.image.load('/Users/cassar.eddie.l/game_project/sprite_sheets/left_attack.png').convert_alpha(), (64, 64))
         right_attack = pygame.transform.scale(pygame.image.load('/Users/cassar.eddie.l/game_project/sprite_sheets/right_attack.png').convert_alpha(), (64, 64))
+
+        self.width = char_idle.get_width()
+        self.height = char_idle.get_height()
         return char_idle, char_right, char_left, char_down, char_up, up_attack, down_attack, left_attack, right_attack
+
+    def touching_other(self, other_rect):
+        '''Detects if the character is touching something else.
+        Parameters: Pygame.rect
+        Return: Boolean'''
+
+        # Create the character's own rectangle.
+        character_rect = pygame.Rect(self.x, self.y, self.width, self.height)
+
+        return character_rect.colliderect(other_rect)

@@ -41,9 +41,10 @@ class GameScreen():
         self.sprite_index = 0
         self.sprites = self.enemy.load_sprites()
 
-        # Creating walls
+        # Creating wall and wall rectangle
         self.wall = self.make_wall()
         self.wall_sprite = self.wall.load_sprites()
+        self.wall_rect = pygame.Rect(self.wall.x, self.wall.y, self.wall_sprite.get_width(), self.wall_sprite.get_height())
 
         # Creates score.
         self.score = 0
@@ -73,6 +74,10 @@ class GameScreen():
             # Sets initial sprite to idle as the player is not moving at the start.
             current_sprite = self.char_idle 
 
+            # Creates a player rectangle so that the bat chases that rectangle, hence the player, all the time.
+            main_character_rect = pygame.Rect(self.main_character.x, self.main_character.y, current_sprite.get_width(), current_sprite.get_height())
+            self.enemy.chase_player(main_character_rect)
+
             # Implements attacking mechanics, makes sure player can't attack when already attacking.
             if self.attacking:
                 current_time = pygame.time.get_ticks()
@@ -97,24 +102,33 @@ class GameScreen():
                     # This if statement (and others similar below it) make sure the character can't exit boundaries.
                     if self.main_character.x < 0:
                         self.main_character.x = 0
+                    if self.main_character.touching_other(self.wall_rect):
+                        self.main_character.x = self.wall_rect.right
                 if pressed[pygame.K_RIGHT]:
                     self.main_character.move_right()
                     current_sprite = self.char_right
                     self.last_direction = self.char_right
                     if self.main_character.x > self.width - 64:
                         self.main_character.x = self.width - 64
+                    if self.main_character.touching_other(self.wall_rect):
+                        self.main_character.x = self.wall_rect.left - main_character_rect.width
                 if pressed[pygame.K_UP]:
                     self.main_character.move_up()
                     current_sprite = self.char_up
                     self.last_direction = self.char_up
-                if self.main_character.y < 0:
-                    self.main_character.y = 0
+                    if self.main_character.y < 0:
+                        self.main_character.y = 0
+                    if self.main_character.touching_other(self.wall_rect):
+                        self.main_character.y = self.wall_rect.bottom
                 if pressed[pygame.K_DOWN]:
                     self.main_character.move_down()
                     current_sprite = self.char_down
                     self.last_direction = self.char_down
                     if self.main_character.y > self.height - 110:
-                        self.main_character_y = self.height - 110      
+                        self.main_character.y = self.height - 110
+                    if self.main_character.touching_other(self.wall_rect):
+                        self.main_character.y = self.wall_rect.top - main_character_rect.height
+                
             # Loads background image
             self.game_screen.blit(self.background_big, self.background_rect)
 
@@ -127,10 +141,6 @@ class GameScreen():
             # Load wall image
             self.game_screen.blit(self.wall_sprite, (self.wall.x, self.wall.y))
 
-            # Creates a player rectangle so that the bat chases that rectangle, hence the player, all the time.
-            main_character_rect = pygame.Rect(self.main_character.x, self.main_character.y, current_sprite.get_width(), current_sprite.get_height())
-            self.enemy.chase_player(main_character_rect)
-
             # If the enemy touches the player, the characters health will be decreased by 5.
             if (self.enemy.touching_other(main_character_rect)):
                 if (not self.attacking):
@@ -140,6 +150,8 @@ class GameScreen():
                     pygame.mixer.Sound.play(self.char_hit_bat)
                     self.score += 1
                 self.enemy.decide_initial_coords(self.width, self.height)
+
+
             
             # If the character's health goes to 0 or less, the game will close and the losing screen will open.
             if self.main_character.health <= 0:
