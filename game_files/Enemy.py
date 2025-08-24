@@ -53,5 +53,4 @@ class Enemy():
 
         # Create the bat's own rectangle.
         bat_rect = pygame.Rect(self.x, self.y, self.width, self.height)
-
         return bat_rect.colliderect(other_rect)

@@ -89,5 +89,4 @@ class Character():
 
         # Create the character's own rectangle.
         character_rect = pygame.Rect(self.x, self.y, self.width, self.height)
-
         return character_rect.colliderect(other_rect)
