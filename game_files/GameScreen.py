@@ -41,10 +41,18 @@ class GameScreen():
         self.sprite_index = 0
         self.sprites = self.enemy.load_sprites()
 
-        # Creating wall and wall rectangle
-        self.wall = self.make_wall()
-        self.wall_sprite = self.wall.load_sprites()
-        self.wall_rect = pygame.Rect(self.wall.x, self.wall.y, self.wall_sprite.get_width(), self.wall_sprite.get_height())
+        # Creating walls and wall rectangles
+        self.walls = []
+        self.wall_sprites = []
+        self.wall_rects = []
+        self.num_walls = 5
+        for i in range(self.num_walls):
+            self.wall = self.make_wall()
+            self.wall_sprite = self.wall.load_sprites()
+            self.wall_rect = pygame.Rect(self.wall.x, self.wall.y, self.wall_sprite.get_width(), self.wall_sprite.get_height())
+            self.walls.append(self.wall)
+            self.wall_sprites.append(self.wall_sprite)
+            self.wall_rects.append(self.wall_rect)
 
         # Creates score.
         self.score = 0
@@ -138,8 +146,9 @@ class GameScreen():
             # Load enemy image
             self.display_enemy()
 
-            # Load wall image
-            self.game_screen.blit(self.wall_sprite, (self.wall.x, self.wall.y))
+            # Load wall images
+            for i in range(self.num_walls):
+                self.game_screen.blit(self.wall_sprites[i], (self.walls[i].x, self.walls[i].y))
 
             # If the enemy touches the player, the characters health will be decreased by 5.
             if (self.enemy.touching_other(main_character_rect)):
