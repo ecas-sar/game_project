@@ -61,7 +61,7 @@ class GameScreen():
         self.char_idle, self.char_right, self.char_left, self.char_down, self.char_up, self.up_attack, self.down_attack, self.left_attack, self.right_attack = self.main_character.load_sprites()
 
         # Creates sound effects.
-        self.bat_hit_char = pygame.mixer.Sound("/Users/cassar.eddie.l/game_project/sound_effects/bat_hit.mp3")
+        self.bat_hit_char = pygame.mixer.Sound("/Users/cassar.eddie.l/game_project/sound_effects/vine_boom.mp3")
         self.char_hit_bat = pygame.mixer.Sound("/Users/cassar.eddie.l/game_project/sound_effects/char_hit.mp3")
         self.winning_sfx = pygame.mixer.Sound("/Users/cassar.eddie.l/game_project/sound_effects/win.mp3")
         self.dying_sfx = pygame.mixer.Sound("/Users/cassar.eddie.l/game_project/sound_effects/bruh.mp3")
