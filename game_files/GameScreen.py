@@ -50,6 +50,9 @@ class GameScreen():
             self.wall = self.make_wall()
             self.wall_sprite = self.wall.load_sprites()
             self.wall_rect = pygame.Rect(self.wall.x, self.wall.y, self.wall_sprite.get_width(), self.wall_sprite.get_height())
+            # While loop here to prevent walls from spawning in the same place.
+            while self.wall_collide_other(self.wall_rect, self.wall_rects):
+                self.wall.decide_initial_coords(self.width, self.height)
             self.walls.append(self.wall)
             self.wall_sprites.append(self.wall_sprite)
             self.wall_rects.append(self.wall_rect)
@@ -110,6 +113,7 @@ class GameScreen():
                     # This if statement (and others similar below it) make sure the character can't exit boundaries.
                     if self.main_character.x < 0:
                         self.main_character.x = 0
+                    # For loops (and others similar below it) make sure the character can't walk through walls.
                     for i in range(self.num_walls):
                         if self.main_character.touching_other(self.wall_rects[i]):
                             self.main_character.x = self.wall_rects[i].right
@@ -251,5 +255,17 @@ class GameScreen():
         self.game_screen.blit(current_sprite, (self.enemy.x, self.enemy.y))
 
     def make_wall(self):
+        '''Creates one wall.
+        Parameters: Void
+        Return: Void'''
         wall = Wall.Wall(self.width, self.height)
         return wall
+
+    def wall_collide_other(self, wall_rect, wall_rects):
+        '''Checks if one wall is colliding with the rest.
+        Parameters: Rect, List of Rects
+        Return: Boolean'''
+        for i in range(len(wall_rects)):
+            if wall_rect.colliderect(wall_rects[i]):
+                return True
+        return False
