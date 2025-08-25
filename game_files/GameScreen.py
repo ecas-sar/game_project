@@ -110,32 +110,36 @@ class GameScreen():
                     # This if statement (and others similar below it) make sure the character can't exit boundaries.
                     if self.main_character.x < 0:
                         self.main_character.x = 0
-                    if self.main_character.touching_other(self.wall_rect):
-                        self.main_character.x = self.wall_rect.right
+                    for i in range(self.num_walls):
+                        if self.main_character.touching_other(self.wall_rects[i]):
+                            self.main_character.x = self.wall_rects[i].right
                 if pressed[pygame.K_RIGHT]:
                     self.main_character.move_right()
                     current_sprite = self.char_right
                     self.last_direction = self.char_right
                     if self.main_character.x > self.width - 64:
                         self.main_character.x = self.width - 64
-                    if self.main_character.touching_other(self.wall_rect):
-                        self.main_character.x = self.wall_rect.left - main_character_rect.width
+                    for i in range(self.num_walls):
+                        if self.main_character.touching_other(self.wall_rects[i]):
+                            self.main_character.x = self.wall_rects[i].left - main_character_rect.width
                 if pressed[pygame.K_UP]:
                     self.main_character.move_up()
                     current_sprite = self.char_up
                     self.last_direction = self.char_up
                     if self.main_character.y < 0:
                         self.main_character.y = 0
-                    if self.main_character.touching_other(self.wall_rect):
-                        self.main_character.y = self.wall_rect.bottom
+                    for i in range(self.num_walls):
+                        if self.main_character.touching_other(self.wall_rects[i]):
+                            self.main_character.y = self.wall_rects[i].bottom
                 if pressed[pygame.K_DOWN]:
                     self.main_character.move_down()
                     current_sprite = self.char_down
                     self.last_direction = self.char_down
                     if self.main_character.y > self.height - 110:
                         self.main_character.y = self.height - 110
-                    if self.main_character.touching_other(self.wall_rect):
-                        self.main_character.y = self.wall_rect.top - main_character_rect.height
+                    for i in range(self.num_walls):
+                        if self.main_character.touching_other(self.wall_rects[i]):
+                            self.main_character.y = self.wall_rects[i].top - main_character_rect.height
                 
             # Loads background image
             self.game_screen.blit(self.background_big, self.background_rect)
