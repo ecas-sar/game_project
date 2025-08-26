@@ -54,6 +54,7 @@ class GameScreen():
             # While loop here to prevent walls from spawning in the same place.
             while self.object_collide_other(self.wall_rect, self.wall_rects):
                 self.wall.decide_initial_coords(self.width, self.height)
+                self.wall_rect.topleft = (self.wall.x, self.wall.y)
             self.walls.append(self.wall)
             self.wall_sprites.append(self.wall_sprite)
             self.wall_rects.append(self.wall_rect)
@@ -69,6 +70,7 @@ class GameScreen():
             self.lava_rect = pygame.Rect(self.lava_pit.x, self.lava_pit.y, self.lava_sprite.get_width(), self.lava_sprite.get_height())
             while self.object_collide_other(self.lava_rect, self.lava_rects):
                 self.lava_pit.decide_initial_coords(self.width, self.height)
+                self.lava_rect.topleft = (self.wall.x, self.wall.y)
             self.lava_pits.append(self.lava_pit)
             self.lava_sprites.append(self.lava_sprite)
             self.lava_rects.append(self.lava_rect)
@@ -133,6 +135,10 @@ class GameScreen():
                     for i in range(self.num_walls):
                         if self.main_character.touching_other(self.wall_rects[i]):
                             self.main_character.x = self.wall_rects[i].right
+                    for i in range(self.num_pits):
+                        if self.main_character.touching_other(self.lava_rects[i]):
+                            self.main_character.x = self.lava_rects[i].right + 25
+                            self.main_character.health -= 5
                 if pressed[pygame.K_RIGHT]:
                     self.main_character.move_right()
                     current_sprite = self.char_right
@@ -142,6 +148,10 @@ class GameScreen():
                     for i in range(self.num_walls):
                         if self.main_character.touching_other(self.wall_rects[i]):
                             self.main_character.x = self.wall_rects[i].left - main_character_rect.width
+                    for i in range(self.num_pits):
+                        if self.main_character.touching_other(self.lava_rects[i]):
+                            self.main_character.x = self.lava_rects[i].left - main_character_rect.width - 25
+                            self.main_character.health -= 5
                 if pressed[pygame.K_UP]:
                     self.main_character.move_up()
                     current_sprite = self.char_up
@@ -151,6 +161,10 @@ class GameScreen():
                     for i in range(self.num_walls):
                         if self.main_character.touching_other(self.wall_rects[i]):
                             self.main_character.y = self.wall_rects[i].bottom
+                    for i in range(self.num_pits):
+                        if self.main_character.touching_other(self.lava_rects[i]):
+                            self.main_character.y = self.lava_rects[i].bottom + 25
+                            self.main_character.health -= 5
                 if pressed[pygame.K_DOWN]:
                     self.main_character.move_down()
                     current_sprite = self.char_down
@@ -160,6 +174,10 @@ class GameScreen():
                     for i in range(self.num_walls):
                         if self.main_character.touching_other(self.wall_rects[i]):
                             self.main_character.y = self.wall_rects[i].top - main_character_rect.height
+                    for i in range(self.num_pits):
+                        if self.main_character.touching_other(self.lava_rects[i]):
+                            self.main_character.y = self.lava_rects[i].top - main_character_rect.height - 25
+                            self.main_character.health -= 5
                 
             # Loads background image
             self.game_screen.blit(self.background_big, self.background_rect)
