@@ -4,6 +4,7 @@ import Enemy
 import Losing
 import Winning
 import Wall
+import Lava
 
 class GameScreen():
     def __init__(self):
@@ -41,21 +42,36 @@ class GameScreen():
         self.sprite_index = 0
         self.sprites = self.enemy.load_sprites()
 
-        # Creating walls and wall rectangles
+        # Creating walls and wall rectangles.
         self.walls = []
         self.wall_sprites = []
         self.wall_rects = []
         self.num_walls = 5
         for i in range(self.num_walls):
-            self.wall = self.make_wall()
+            self.wall = Wall.Wall(self.width, self.height)
             self.wall_sprite = self.wall.load_sprites()
             self.wall_rect = pygame.Rect(self.wall.x, self.wall.y, self.wall_sprite.get_width(), self.wall_sprite.get_height())
             # While loop here to prevent walls from spawning in the same place.
-            while self.wall_collide_other(self.wall_rect, self.wall_rects):
+            while self.object_collide_other(self.wall_rect, self.wall_rects):
                 self.wall.decide_initial_coords(self.width, self.height)
             self.walls.append(self.wall)
             self.wall_sprites.append(self.wall_sprite)
             self.wall_rects.append(self.wall_rect)
+
+        # Creates lava pits and their rectangles.
+        self.lava_pits = []
+        self.lava_sprites = []
+        self.lava_rects = []
+        self.num_pits = 5
+        for i in range(self.num_pits):
+            self.lava_pit = Lava.Lava(self.width, self.height)
+            self.lava_sprite = self.lava_pit.load_sprites()
+            self.lava_rect = pygame.Rect(self.lava_pit.x, self.lava_pit.y, self.lava_sprite.get_width(), self.lava_sprite.get_height())
+            while self.object_collide_other(self.lava_rect, self.lava_rects):
+                self.lava_pit.decide_initial_coords(self.width, self.height)
+            self.lava_pits.append(self.lava_pit)
+            self.lava_sprites.append(self.lava_sprite)
+            self.lava_rects.append(self.lava_rect)
 
         # Creates score.
         self.score = 0
@@ -158,6 +174,10 @@ class GameScreen():
             for i in range(self.num_walls):
                 self.game_screen.blit(self.wall_sprites[i], (self.walls[i].x, self.walls[i].y))
 
+            # Load lava images
+            for i in range(self.num_pits):
+                self.game_screen.blit(self.lava_sprites[i], (self.lava_pits[i].x, self.lava_pits[i].y))
+
             # If the enemy touches the player, the characters health will be decreased by 5.
             if (self.enemy.touching_other(main_character_rect)):
                 if (not self.attacking):
@@ -254,18 +274,11 @@ class GameScreen():
         current_sprite = self.sprites[self.sprite_index]
         self.game_screen.blit(current_sprite, (self.enemy.x, self.enemy.y))
 
-    def make_wall(self):
-        '''Creates one wall.
-        Parameters: Void
-        Return: Void'''
-        wall = Wall.Wall(self.width, self.height)
-        return wall
-
-    def wall_collide_other(self, wall_rect, wall_rects):
-        '''Checks if one wall is colliding with the rest.
+    def object_collide_other(self, rect, rects):
+        '''Checks if one object (such as a wall, lava pit, etc.) is colliding with the rest.
         Parameters: Rect, List of Rects
         Return: Boolean'''
-        for i in range(len(wall_rects)):
-            if wall_rect.colliderect(wall_rects[i]):
+        for i in range(len(rects)):
+            if (rect.colliderect(rects[i])) and (rects[i] != rect):
                 return True
         return False
