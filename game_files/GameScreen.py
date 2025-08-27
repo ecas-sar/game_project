@@ -70,7 +70,7 @@ class GameScreen():
             self.lava_rect = pygame.Rect(self.lava_pit.x, self.lava_pit.y, self.lava_sprite.get_width(), self.lava_sprite.get_height())
             while self.object_collide_other(self.lava_rect, self.lava_rects):
                 self.lava_pit.decide_initial_coords(self.width, self.height)
-                self.lava_rect.topleft = (self.wall.x, self.wall.y)
+                self.lava_rect.topleft = (self.lava_pit.x, self.lava_pit.y)
             self.lava_pits.append(self.lava_pit)
             self.lava_sprites.append(self.lava_sprite)
             self.lava_rects.append(self.lava_rect)
