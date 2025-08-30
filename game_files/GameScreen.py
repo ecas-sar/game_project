@@ -92,6 +92,9 @@ class GameScreen():
             self.projectile_sprites.append(self.projectile_sprite)
             self.projectile_rects.append(self.projectile_rect)
 
+        # Helps with projectile damage work.
+        self.last_time_hit = 0
+
         # Creates score.
         self.score = 0
 
@@ -216,10 +219,18 @@ class GameScreen():
             # Load projectile images
             for i in range(self.num_proj):
                 self.game_screen.blit(self.projectile_sprites[i], (self.projectiles[i].x, self.projectiles[i].y))
-                if self.projectiles[i].x == 0:
+                if self.projectiles[i].horizontal:
                     self.projectiles[i].move_right()
-                elif self.projectiles[i].y == 0:
-                    self.projectiles[i].move_down
+                    self.projectile_rects[i].topleft = (self.projectiles[i].x, self.projectiles[i].y)
+                    if self.projectiles[i].x == self.width:
+                        self.projectiles[i].decide_initial_coords(self.width, self.height)
+                        self.projectile_rects[i].topleft = (self.projectiles[i].x, self.projectiles[i].y)
+                else:
+                    self.projectiles[i].move_down()
+                    self.projectile_rects[i].topleft = (self.projectiles[i].x, self.projectiles[i].y)
+                    if self.projectiles[i].y == self.height:
+                        self.projectiles[i].decide_initial_coords(self.width, self.height)
+                        self.projectile_rects[i].topleft = (self.projectiles[i].x, self.projectiles[i].y)
 
             # If the enemy touches the player, the characters health will be decreased by 5.
             if (self.enemy.touching_other(main_character_rect)):
@@ -230,6 +241,14 @@ class GameScreen():
                     pygame.mixer.Sound.play(self.char_hit_bat)
                     self.score += 1
                 self.enemy.decide_initial_coords(self.width, self.height)
+
+            # If the character is touching any of the projectiles, its health will be decreased by 5.
+            for proj_rect in self.projectile_rects:
+                if self.main_character.touching_other(proj_rect):
+                    current_time = pygame.time.get_ticks()
+                    if current_time - self.last_time_hit >= 300:
+                        self.main_character.health -= 5
+                        self.last_time_hit = current_time
 
 
             
