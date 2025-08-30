@@ -5,6 +5,7 @@ import Losing
 import Winning
 import Wall
 import Lava
+import Projectile
 
 class GameScreen():
     def __init__(self):
@@ -74,6 +75,22 @@ class GameScreen():
             self.lava_pits.append(self.lava_pit)
             self.lava_sprites.append(self.lava_sprite)
             self.lava_rects.append(self.lava_rect)
+
+        # Creates projectiles and their rectangles.
+        self.projectiles = []
+        self.projectile_sprites = []
+        self.projectile_rects = []
+        self.num_proj = 4
+        for i in range(self.num_proj):
+            self.projectile = Projectile.Projectile(self.width, self.height)
+            self.projectile_sprite = self.projectile.load_sprites()
+            self.projectile_rect = pygame.Rect(self.projectile.x, self.projectile.y, self.projectile_sprite.get_width(), self.projectile_sprite.get_height())
+            while self.object_collide_other(self.projectile_rect, self.projectile_rects):
+                self.projectile.decide_initial_coords(self.width, self.height)
+                self.projectile_rect.topleft = (self.projectile.x, self.projectile.y)
+            self.projectiles.append(self.projectile)
+            self.projectile_sprites.append(self.projectile_sprite)
+            self.projectile_rects.append(self.projectile_rect)
 
         # Creates score.
         self.score = 0
@@ -195,6 +212,14 @@ class GameScreen():
             # Load lava images
             for i in range(self.num_pits):
                 self.game_screen.blit(self.lava_sprites[i], (self.lava_pits[i].x, self.lava_pits[i].y))
+
+            # Load projectile images
+            for i in range(self.num_proj):
+                self.game_screen.blit(self.projectile_sprites[i], (self.projectiles[i].x, self.projectiles[i].y))
+                if self.projectiles[i].x == 0:
+                    self.projectiles[i].move_right()
+                elif self.projectiles[i].y == 0:
+                    self.projectiles[i].move_down
 
             # If the enemy touches the player, the characters health will be decreased by 5.
             if (self.enemy.touching_other(main_character_rect)):

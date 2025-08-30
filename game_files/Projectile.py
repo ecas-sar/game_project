@@ -9,9 +9,9 @@ class Projectile:
         self.width = 25
         self.height = 25
         self.velocity = 4
-        self.x, self.y = seld.decide_initial_coords(screen_width, screen_height)
+        self.x, self.y = self.decide_initial_coords(screen_width, screen_height)
 
-    def load_sprites():
+    def load_sprites(self):
         '''Loads projectile sprite.
         Parameters: Void
         Return: Pygame Image'''
@@ -26,11 +26,9 @@ class Projectile:
         if vertical == 0:
             self.x = 0
             self.y = random.uniform(self.height, screen_height - self.height)
-            self.move_right()
         else:
             self.y = 0
             self.x = random.uniform(self.width, screen_width - self.width)
-            self.move_down()
         return self.x, self.y
 
     def move_down(self):
